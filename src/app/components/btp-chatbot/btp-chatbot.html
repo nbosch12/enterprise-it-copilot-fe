@@ -1,0 +1,106 @@
+﻿<div class="chatbot-panel">
+  <!-- Left Sidebar - Chat History -->
+  <div class="chat-sidebar">
+    <div class="sidebar-header">
+      <button class="new-chat-btn" (click)="clearChat()">
+        <span>✏️</span>
+        <span>New chat</span>
+      </button>
+    </div>
+    @if (messages().length > 0) {
+      <div class="sidebar-title">Recent</div>
+      <div class="sidebar-list">
+        <div class="sidebar-item active">
+          <span>💬</span>
+          <span>New conversation</span>
+        </div>
+      </div>
+    }
+  </div>
+  <!-- Main Chat Area -->
+  <div class="chat-main">
+    <!-- Messages -->
+    <div class="chat-messages">
+      <!-- Empty state -->
+      @if (isEmpty()) {
+      <div class="empty-state">
+        <div class="welcome-text">
+          <div class="welcome-icon">
+          <mat-icon class="bosch-ic-robot-onboarding-livechat"></mat-icon>
+          </div>
+          <h2>Hello {{userName()}} How can I help you today?</h2>
+          <p>Ask me anything about enterprise IT</p>
+        </div>
+      </div>
+      }
+
+      <!-- Messages list -->
+      @if (!isEmpty()) {
+      <div class="messages-list">
+        @for (message of messages(); track message.id) {
+          <div>
+            <div class="message-row" [class.user-message]="message.role === 'user'">
+              @if (message.role !== 'user') {
+                <div class="message-row-avatar">
+<!--                  <div class="avatar">🤖</div>-->
+                  <mat-icon class="bosch-ic-robot-onboarding-copilot avatar"></mat-icon>
+                </div>
+              }
+              <div class="message-row-content">
+                @if (message.role !== 'user') {
+                  <div class="message-row-label">Enterprise IT Copilot</div>
+                }
+                <div class="message-row-text" [innerHTML]="highlightContent(message.content)"></div>
+              </div>
+            </div>
+          </div>
+        }
+        <!-- Typing indicator -->
+        @if (isTyping()) {
+          <div class="message-row typing-row">
+            <div class="message-row-avatar">
+<!--              <div class="avatar">🤖</div>-->
+              <mat-icon class="bosch-ic-robot-onboarding-livechat"></mat-icon>
+            </div>
+            <div class="message-row-content">
+              <div class="message-row-text">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+      }
+    </div>
+    <!-- Input Area - Always at bottom -->
+    <div class="chat-input-wrapper">
+      <div class="chat-input-container">
+        <textarea
+          [(ngModel)]="userInput"
+          (keydown)="onKeydown($event)"
+          placeholder="Message Enterprise IT Copilot..."
+          class="chat-textarea"
+          [rows]="1"
+          #chatInput
+        ></textarea>
+        <button
+          (click)="sendMessage()"
+          class="send-btn"
+          [class.active]="userInput().trim().length > 0"
+          [disabled]="!userInput().trim()"
+          title="Send message"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13"></path>
+            <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="input-footer">
+        <span>Enterprise IT Copilot can make mistakes. Consider checking important information.</span>
+      </div>
+    </div>
+  </div>
+</div>
