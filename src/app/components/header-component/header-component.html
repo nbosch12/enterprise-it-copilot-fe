@@ -1,0 +1,20 @@
+<div class="app-header-container">
+  <!-- @if (!extendedBreadcrumbService.getShowOrHideBreadcrumbs()) {
+    <bci-breadcrumbs role="navigation" [fixedTail]="4" aria-label="breadcrumbs" class="app-header__breadcrumbs prevent-interaction">
+      @if ((breadcrumbs | async)?.length > 1) {
+        @for (breadcrumb of breadcrumbs | async; track $index) {
+          <bci-breadcrumb [title]="breadcrumb.title | translate" [url]="breadcrumb.url"> </bci-breadcrumb>
+        }
+      } @else {
+        <bci-breadcrumb [title]="header"> </bci-breadcrumb>
+      }
+    </bci-breadcrumbs>
+  } -->
+
+  <div class="app-header__content">
+    <ng-content></ng-content>
+  </div>
+  <a class="app-header__logo prevent-interaction" href="/">
+    <img src="./assets/img/bosch-logo-only.png" [attr.alt]="layoutIntl.inventedLogoAlt" />
+  </a>
+</div>

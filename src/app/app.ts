@@ -2,15 +2,16 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {BciLayoutModule} from '@bci-web-core/core';
 import {BtpChatbot} from './components/btp-chatbot/btp-chatbot';
+import { HeaderComponent } from "./components/header-component/header-component";
 
 
 @Component({
   selector: 'app-root',
   imports: [
-    RouterOutlet,
     BciLayoutModule,
-    BtpChatbot
-  ],
+    BtpChatbot,
+    HeaderComponent
+],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
