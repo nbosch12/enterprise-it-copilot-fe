@@ -1,0 +1,56 @@
+@use '@bci-web-core/common-styles/sass/bci/bci-variables';
+@use '@bci-web-core/common-styles/sass/bci/mixins' as bciMixins;
+
+.app-header-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: bci-variables.$header-height-screen-xs;
+  container-name: header;
+  container-type: inline-size;
+
+  @include bciMixins.make-responsive-header-padding('0px', '0px');
+
+  @include bciMixins.make-border(0 0 1px 0, var(--bosch-gray-60));
+}
+
+.app-header__title {
+  margin-right: 32px;
+  @include bciMixins.make-font-regular(20px);
+}
+
+.app-header__content {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  column-gap: calc(var(--grid-unit) * 2);
+}
+
+.app-header__logo {
+  margin-left: auto;
+  width: bci-variables.$header-logo-width;
+  height: 28.4px;
+  img {
+    height: 100%;
+    width: bci-variables.$header-logo-width;
+  }
+}
+
+@container header (max-width: 1310px) {
+  ::ng-deep .icon-label--hidden-max-1310 {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .app-header__title {
+    margin-left: 30px;
+  }
+}
+
+.app-header__breadcrumbs {
+  margin-bottom: var(--grid-unit);
+  margin-right: calc(var(--grid-unit) * 4);
+}
