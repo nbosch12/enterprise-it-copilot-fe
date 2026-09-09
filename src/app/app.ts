@@ -3,13 +3,15 @@ import { RouterOutlet } from '@angular/router';
 import {BciLayoutModule} from '@bci-web-core/core';
 import {BtpChatbot} from './components/btp-chatbot/btp-chatbot';
 import { HeaderComponent } from "./components/header-component/header-component";
+import { NewChatbot } from './components/new-chatbot/new-chatbot';
 
 
 @Component({
   selector: 'app-root',
   imports: [
-    BciLayoutModule,
+   BciLayoutModule,
     BtpChatbot,
+    NewChatbot,
     HeaderComponent
 ],
   templateUrl: './app.html',

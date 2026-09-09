@@ -62,18 +62,19 @@
           },
           "defaultConfiguration": "production"
         },
-        "serve": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "sap-btp-hackathon:build:production"
-            },
-            "development": {
-              "buildTarget": "sap-btp-hackathon:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
+       "serve": {
+  "builder": "@angular/build:dev-server",
+  "configurations": {
+    "production": {
+      "buildTarget": "sap-btp-hackathon:build:production"
+    },
+    "development": {
+      "buildTarget": "sap-btp-hackathon:build:development",
+      "proxyConfig": "proxy.conf.js"
+    }
+  },
+  "defaultConfiguration": "development"
+},
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n"
         },

@@ -1,0 +1,46 @@
+
+<div class="chatbot-panel"> <!-- ========================= Left Sidebar ========================= --> <div class="chat-sidebar">
+     <div class="sidebar-header"> <button type="button" class="new-chat-btn" (click)="clearChat()"> <span>✏️</span> 
+        
+        
+        
+        <span>New chat</span> </button> </div> @if (messages().length > 0) { <div class="sidebar-title"> Recent </div>
+         <div class="sidebar-list"> <div class="sidebar-item active"> <span>💬</span> 
+            <span>New conversation</span> </div> </div> } </div>
+             <!-- ========================= Main Chat ========================= --> <div class="chat-main"> 
+                
+                
+        <!-- ========================= Messages Area ========================= --> <div class="chat-messages"> 
+            <!-- Empty State --> @if (isEmpty()) { <div class="empty-state"> 
+                <div class="welcome-text"> <div class="welcome-icon"> 
+                    
+                    <mat-icon class="bosch-ic-robot-onboarding-livechat">
+                         </mat-icon> </div> <h2> Hello {{ userName() }}, how can I help you today? </h2>
+                          <p> Ask me anything about enterprise IT </p> </div> </div> } 
+                          <!-- ========================= Chat Messages ========================= --> 
+                           @if (!isEmpty()) { <div class="messages-list"> @for (message of messages(); track message.id) 
+                            { <div class="message-row" [class.user-message]="message.role === 'user'">
+                                 <!-- Assistant Avatar --> @if (message.role !== 'user') 
+                                  { <div class="message-row-avatar"> 
+                                    <mat-icon class="bosch-ic-robot-onboarding-copilot avatar"> </mat-icon>
+                                 </div> } 
+                                 <!-- Message Content -->
+                                  
+                                 <div class="message-row-content">
+                                     <!-- Assistant Name --> @if (message.role !== 'user') 
+                                      { <div class="message-row-label"> Enterprise IT Copilot </div> }
+                                       <!-- Message Text --> <div class="message-row-text" [class.markdown-body]="message.role !== 'user'" [innerHTML]="highlightContent(message)"> </div> 
+                                    </div> </div> } <!-- ========================= Typing Indicator ========================= --> @if (isTyping())
+                                     { <div class="message-row typing-row"> <div class="message-row-avatar"> <mat-icon class="bosch-ic-robot-onboarding-livechat"> </mat-icon>
+                                     </div> <div class="message-row-content"> <div class="message-row-label"> Enterprise IT Copilot </div> <div class="message-row-text typing-indicator"> <span class="dot">
+
+                                     </span> <span class="dot"></span> <span class="dot"></span> </div> </div> </div> } </div> } </div>
+                                      <!-- ========================= Input Area ========================= --> 
+                                       <div class="chat-input-wrapper"> <div class="chat-input-container">
+                                         <textarea [ngModel]="userInput()" (ngModelChange)="userInput.set($event)" (keydown)="onKeydown($event)" placeholder="Message Enterprise IT Copilot..." class="chat-textarea" rows="1" [disabled]="isTyping()"> </textarea>
+                                          <!-- Send Button --> 
+                                        <button type="button" class="send-btn" [class.active]="userInput().trim().length > 0 && !isTyping()" [disabled]="!userInput().trim() || isTyping()" (click)="sendMessage()" title="Send message" aria-label="Send message"> 
+                                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"> 
+                                                <path d="M22 2L11 13"></path> <path d="M22 2L15 22L11 13L2 9L22 2Z"></path> </svg> </button> </div> 
+                                                <!-- Footer --> 
+                                                 <div class="input-footer"> <span> Enterprise IT Copilot can make mistakes. Consider checking important information. </span> </div> </div> </div> </div>
