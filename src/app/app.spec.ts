@@ -18,6 +18,7 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, sap-btp-hackathon');
+    expect(compiled.querySelector('app-header-component')).not.toBeNull();
+    expect(compiled.querySelector('app-new-chatbot')).not.toBeNull();
   });
 });

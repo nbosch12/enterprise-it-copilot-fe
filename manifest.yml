@@ -1,0 +1,10 @@
+applications:
+  - name: enterprise-it-copilot-fe
+    random-route: true
+    buildpacks:
+      - staticfile_buildpack
+    env:
+      TARGET_RUNTIME: main
+      SPRING_PROFILES_ACTIVE: 'cloud'
+      JBP_CONFIG_SAPJVM_MEMORY_SIZES: 'metaspace:128m..'
+    path: dist/sap-btp-hackathon/browser
