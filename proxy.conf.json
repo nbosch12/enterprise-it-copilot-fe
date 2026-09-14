@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://docupedia-grounding-api.cfapps.eu10-004.hana.ondemand.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

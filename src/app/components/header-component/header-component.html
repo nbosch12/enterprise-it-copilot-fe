@@ -1,5 +1,5 @@
 <div class="app-header-container">
-  <!-- @if (!extendedBreadcrumbService.getShowOrHideBreadcrumbs()) {
+  @if (!extendedBreadcrumbService.getShowOrHideBreadcrumbs()) {
     <bci-breadcrumbs role="navigation" [fixedTail]="4" aria-label="breadcrumbs" class="app-header__breadcrumbs prevent-interaction">
       @if ((breadcrumbs | async)?.length > 1) {
         @for (breadcrumb of breadcrumbs | async; track $index) {
@@ -9,7 +9,7 @@
         <bci-breadcrumb [title]="header"> </bci-breadcrumb>
       }
     </bci-breadcrumbs>
-  } -->
+  }
 
   <div class="app-header__content">
     <ng-content></ng-content>

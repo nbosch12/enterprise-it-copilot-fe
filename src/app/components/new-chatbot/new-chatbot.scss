@@ -1,4 +1,4 @@
-﻿//@use '@bci-web-core/common-styles/sass/bci/bosch-ic';
+//@use '@bci-web-core/common-styles/sass/bci/bosch-ic';
 
 /* Left Sidebar - Chat History */
 .chatbot-panel .chat-sidebar {
@@ -269,6 +269,112 @@ app-btp-chatbot {
 .chatbot-panel .message-row-text strong {
   font-weight: 600;
   color: #000;
+}
+
+/* Rendered markdown from the API (innerHTML needs ::ng-deep to be styled) */
+:host ::ng-deep .markdown-body {
+  p,
+  ul,
+  ol,
+  pre,
+  blockquote,
+  table {
+    margin: 0 0 12px;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 16px 0 8px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  h1 { font-size: 20px; }
+  h2 { font-size: 18px; }
+  h3 { font-size: 16px; }
+  h4 { font-size: 15px; }
+
+  ul,
+  ol {
+    padding-left: 22px;
+  }
+
+  li + li {
+    margin-top: 4px;
+  }
+
+  a {
+    color: #0069b4;
+    text-decoration: underline;
+  }
+
+  code {
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 13px;
+    background: #f2f4f7;
+    border-radius: 4px;
+    padding: 2px 5px;
+  }
+
+  pre {
+    background: #f2f4f7;
+    border: 1px solid #e2e6ea;
+    border-radius: 6px;
+    padding: 12px;
+    overflow-x: auto;
+
+    code {
+      background: none;
+      padding: 0;
+    }
+  }
+
+  blockquote {
+    border-left: 3px solid #d0d5dd;
+    padding-left: 12px;
+    color: #555;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+    display: block;
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    border: 1px solid #e2e6ea;
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: #f2f4f7;
+    font-weight: 600;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #fafbfc;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e2e6ea;
+    margin: 16px 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
 }
 
 /* Typing Indicator */

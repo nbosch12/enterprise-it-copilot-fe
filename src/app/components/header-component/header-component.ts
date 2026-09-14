@@ -8,6 +8,6 @@ import { BciLayoutIntl } from '@bci-web-core/core';
   styleUrl: './header-component.scss',
 })
 export class HeaderComponent {
-  readonly layoutIntl = inject(BciLayoutIntl);
+ readonly layoutIntl = inject(BciLayoutIntl);
 
 }

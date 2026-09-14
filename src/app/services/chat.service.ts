@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
+import { map, Observable, timestamp } from 'rxjs';
 
 export interface ChatMessage {
   id: number;
@@ -13,7 +15,7 @@ export interface ChatMessage {
 export class ChatService {
   private messages = signal<ChatMessage[]>([]);
   private messageCounter = 0;
-
+constructor(private http: HttpClient) {}
   // Get the signal directly — use .read() or pass to toSignal in components
   getMessages() {
     return this.messages;
@@ -71,4 +73,52 @@ export class ChatService {
 
     return responses[Math.floor(Math.random() * responses.length)];
   }
+
+ public SendMessage(message: MessageEntry): Observable<MessageEntry> {
+
+    const apiUrl = '/api/vector/ask';
+
+    const requestBody = {
+      question: message.question.trim(),
+      repositoryId: message.repositoryId,
+      topK: message.topK
+    };
+
+    console.log('Sending request:', requestBody);
+
+    return this.http
+      .post<{ answer: string }>(apiUrl, requestBody)
+      .pipe(
+        map(res => {
+
+          console.log('API response:', res);
+
+          const cleanedContent = (res.answer || '')
+            .replace(/\[Chunk\s*#?\d+\]/gi, '')
+            .trim();
+
+          return {
+            id: crypto.randomUUID(),
+            question: message.question,
+            repositoryId: message.repositoryId,
+            topK: message.topK,
+            content: cleanedContent,
+            role: 'assistant',
+            createdAt: new Date(),
+            isTable: /table|tabular|as a table/i.test(message.question)
+          };
+        })
+      );
+  }
+
+}
+ export interface MessageEntry {
+  id: string;
+  question: string;
+  repositoryId: string;
+  topK: number;
+  content: string;
+  role: 'user' | 'assistant';
+  createdAt: Date;
+  isTable?: boolean;
 }
