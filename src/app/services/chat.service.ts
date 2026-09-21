@@ -81,6 +81,9 @@ constructor(private http: HttpClient) {}
     const requestBody = {
       question: message.question.trim(),
       repositoryId: message.repositoryId,
+      sessionId: message.sessionId,
+      useHistory: message.useHistory,
+      historyTurns: message.historyTurns,
       topK: message.topK
     };
 
@@ -101,6 +104,9 @@ constructor(private http: HttpClient) {}
             id: crypto.randomUUID(),
             question: message.question,
             repositoryId: message.repositoryId,
+            sessionId: message.sessionId,
+            useHistory: message.useHistory,
+            historyTurns: message.historyTurns,
             topK: message.topK,
             content: cleanedContent,
             role: 'assistant',
@@ -121,4 +127,7 @@ constructor(private http: HttpClient) {}
   role: 'user' | 'assistant';
   createdAt: Date;
   isTable?: boolean;
+  sessionId: string;
+  useHistory: boolean;
+  historyTurns: number;
 }

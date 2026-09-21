@@ -1,12 +1,29 @@
 
 <div class="chatbot-panel"> <!-- ========================= Left Sidebar ========================= --> <div class="chat-sidebar">
-     <div class="sidebar-header"> <button type="button" class="new-chat-btn" (click)="clearChat()"> <span>✏️</span> 
-        
-        
-        
-        <span>New chat</span> </button> </div> @if (messages().length > 0) { <div class="sidebar-title"> Recent </div>
-         <div class="sidebar-list"> <div class="sidebar-item active"> <span>💬</span> 
-            <span>New conversation</span> </div> </div> } </div>
+     <div class="sidebar-header">
+        <button type="button" class="sidebar-btn" (click)="clearChat()">
+          <mat-icon aria-hidden="true"></mat-icon>
+          <span>New chat</span>
+        </button>
+        <button type="button" class="sidebar-btn" (click)="toggleChatHistory()" [attr.aria-expanded]="isHistoryOpen()">
+          <mat-icon aria-hidden="true"></mat-icon>
+          <span>Chat history</span>
+          
+        </button>
+        @if (isHistoryOpen()) {
+          <div class="sidebar-list" aria-label="Chat history">
+            @for (chat of chatHistory(); track chat.id) {
+              <button type="button" class="sidebar-item" (click)="openChat(chat)" [title]="chat.title">
+                <mat-icon aria-hidden="true">chat_bubble_outline</mat-icon>
+                <span>{{ chat.title }}</span>
+              </button>
+            } @empty {
+              <p class="history-empty">No chat history</p>
+            }
+          </div>
+        }
+     </div>
+   </div>
              <!-- ========================= Main Chat ========================= --> <div class="chat-main"> 
                 
                 

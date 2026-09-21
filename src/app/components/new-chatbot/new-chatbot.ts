@@ -3,6 +3,14 @@ import { ChatService, MessageEntry } from '../../services/chat.service';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { marked } from 'marked';
+
+interface ChatHistoryEntry {
+  id: string;
+  title: string;
+  sessionId: string;
+  messages: MessageEntry[];
+}
+
 @Component({
   selector: 'app-new-chatbot',
    imports: [
@@ -23,9 +31,12 @@ export class NewChatbot implements OnDestroy {
 
   // Chat messages
   messages = signal<MessageEntry[]>([]);
+  currentSessionId = signal<string>(crypto.randomUUID());
 
   // UI state
   isTyping = signal(false);
+  isHistoryOpen = signal(false);
+  chatHistory = signal<ChatHistoryEntry[]>([]);
 
   // Change this according to how you get the logged-in user's name
   userName = signal('User');
@@ -76,7 +87,10 @@ export class NewChatbot implements OnDestroy {
     id: crypto.randomUUID(),
     question: question,
     repositoryId: 'f0bf939b-59ef-4211-b8f0-db053c46cbad',
-    topK: 5,
+    sessionId: this.currentSessionId(),
+    useHistory: true,
+    historyTurns: 6,
+    topK: 10,
     content: question,
     role: 'user',
     createdAt: new Date(),
@@ -179,11 +193,44 @@ export class NewChatbot implements OnDestroy {
 
     this.stopStreaming();
 
+    const currentMessages = this.messages();
+
+    if (currentMessages.length > 0) {
+      const firstQuestion = currentMessages.find(message => message.role === 'user')?.content;
+      const sessionId = this.currentSessionId();
+
+      this.chatHistory.update(history => [
+        {
+          id: sessionId,
+          title: firstQuestion || 'New conversation',
+          sessionId,
+          messages: [...currentMessages]
+        },
+        ...history
+      ]);
+    }
+
+    this.currentSessionId.set(crypto.randomUUID());
     this.messages.set([]);
 
     this.userInput.set('');
 
     this.isTyping.set(false);
+  }
+
+
+  toggleChatHistory(): void {
+    this.isHistoryOpen.update(isOpen => !isOpen);
+  }
+
+
+  openChat(history: ChatHistoryEntry): void {
+    this.stopStreaming();
+    this.currentSessionId.set(history.sessionId);
+    this.messages.set([...history.messages]);
+    this.userInput.set('');
+    this.isTyping.set(false);
+    this.isHistoryOpen.set(false);
   }
 
 
