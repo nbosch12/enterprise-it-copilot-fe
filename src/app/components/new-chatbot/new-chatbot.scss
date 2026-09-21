@@ -15,9 +15,12 @@
 
 .chatbot-panel .sidebar-header {
   padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.chatbot-panel .new-chat-btn {
+.chatbot-panel .sidebar-btn {
   width: 100%;
   display: flex;
   align-items: center;
@@ -32,15 +35,19 @@
   transition: background 0.2s ease;
 }
 
-.chatbot-panel .new-chat-btn:hover {
+.chatbot-panel .sidebar-btn:hover {
   background: #e8e8e8;
 }
 
-.chatbot-panel .sidebar-title {
-  padding: 12px 12px 8px;
-  font-size: 13px;
-  color: #888;
-  font-weight: 500;
+.chatbot-panel .sidebar-btn mat-icon,
+.chatbot-panel .sidebar-item mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}
+
+.chatbot-panel .sidebar-btn .expand-icon {
+  margin-left: auto;
 }
 
 .chatbot-panel .sidebar-list {
@@ -50,10 +57,13 @@
 }
 
 .chatbot-panel .sidebar-item {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
+  background: transparent;
+  border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
@@ -61,12 +71,20 @@
   transition: background 0.2s ease;
 }
 
+.chatbot-panel .sidebar-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .chatbot-panel .sidebar-item:hover {
   background: #e0e0e0;
 }
 
-.chatbot-panel .sidebar-item.active {
-  background: #d0d0d0;
+.chatbot-panel .history-empty {
+  margin: 4px 12px;
+  color: #777;
+  font-size: 13px;
 }
 
 /* Chatbot fills bci-app content area */

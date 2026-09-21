@@ -15,7 +15,7 @@ import { NewChatbot } from './components/new-chatbot/new-chatbot';
     HeaderComponent
 ],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss']
 })
 export class App {
   protected readonly title = signal('Enterprise IT Copilot');
