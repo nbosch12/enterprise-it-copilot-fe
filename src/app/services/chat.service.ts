@@ -76,7 +76,7 @@ constructor(private http: HttpClient) {}
 
  public SendMessage(message: MessageEntry): Observable<MessageEntry> {
 
-    const apiUrl = '/api/vector/ask';
+    const apiUrl = '/api/copilot/ask';
 
     const requestBody = {
       question: message.question.trim(),

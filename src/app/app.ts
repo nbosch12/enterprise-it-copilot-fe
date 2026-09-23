@@ -12,7 +12,7 @@ import { NewChatbot } from './components/new-chatbot/new-chatbot';
     HeaderComponent
 ],
   templateUrl: './app.html',
-  styleUrls: ['./app.scss']
+  styleUrl: './app.scss'
 })
 export class App {
   protected readonly title = signal('Enterprise IT Copilot');

@@ -87,7 +87,7 @@ export class NewChatbot implements OnDestroy {
     id: crypto.randomUUID(),
     question: question,
     repositoryId: 'f0bf939b-59ef-4211-b8f0-db053c46cbad',
-    sessionId: this.currentSessionId(),
+    sessionId: 'user-123',
     useHistory: true,
     historyTurns: 6,
     topK: 10,
