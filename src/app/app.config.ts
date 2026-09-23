@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     importProvidersFrom([
-      BciCoreModule.forRoot({}),
+     BciCoreModule.forRoot({}),
     ]),
     provideRouter(routes)
   ]
