@@ -1,0 +1,21 @@
+<figure class="code-block">
+  <figcaption class="code-block-bar">
+    <span class="code-block-language">{{ languageLabel() }}</span>
+    <button type="button" class="code-block-copy" (click)="copy()">
+      @if (copied()) {
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M20 6L9 17l-5-5"></path>
+        </svg>
+        <span>Copied</span>
+      } @else {
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="9" y="9" width="12" height="12" rx="2"></rect>
+          <path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"></path>
+        </svg>
+        <span>Copy</span>
+      }
+    </button>
+    <span class="visually-hidden" aria-live="polite">{{ copied() ? 'Code copied to clipboard' : '' }}</span>
+  </figcaption>
+  <pre class="code-block-pre" tabindex="0"><code>{{ code() }}</code></pre>
+</figure>

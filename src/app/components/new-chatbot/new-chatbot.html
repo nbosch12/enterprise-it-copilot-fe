@@ -46,7 +46,19 @@
                                  <div class="message-row-content">
                                      <!-- Assistant Name --> @if (message.role !== 'user') 
                                       { <div class="message-row-label"> Enterprise IT Copilot </div> }
-                                       <!-- Message Text --> <div class="message-row-text" [class.markdown-body]="message.role !== 'user'" [innerHTML]="highlightContent(message)"> </div> 
+                                       <!-- Message Text -->
+                                       @if (message.role === 'user') {
+                                         <div class="message-row-text user-text">{{ message.content }}</div>
+                                       } @else {
+                                         @if (message.structured; as structured) {
+                                           <!-- JSON answer: summary, sections, bullets, steps, code -->
+                                           <app-answer-view class="message-row-text" [answer]="structured" [summary]="message.content" [complete]="streamingId() !== message.id" />
+                                         } @else {
+                                           <!-- Plain markdown answer -->
+                                           <app-rich-text class="message-row-text" [text]="message.content" />
+                                         }
+                                       }
+
                                     </div> </div> } <!-- ========================= Typing Indicator ========================= --> @if (isTyping())
                                      { <div class="message-row typing-row"> <div class="message-row-avatar"> <mat-icon class="bosch-ic-robot-onboarding-livechat"> </mat-icon>
                                      </div> <div class="message-row-content"> <div class="message-row-label"> Enterprise IT Copilot </div> <div class="message-row-text typing-indicator"> <span class="dot">

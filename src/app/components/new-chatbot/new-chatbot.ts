@@ -2,7 +2,8 @@ import { Component, OnDestroy, signal } from '@angular/core';
 import { ChatService, MessageEntry } from '../../services/chat.service';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { marked } from 'marked';
+import { AnswerView } from '../answer-view/answer-view';
+import { RichText } from '../rich-text/rich-text';
 
 interface ChatHistoryEntry {
   id: string;
@@ -15,7 +16,9 @@ interface ChatHistoryEntry {
   selector: 'app-new-chatbot',
    imports: [
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    AnswerView,
+    RichText
   ],
   templateUrl: './new-chatbot.html',
   styleUrl: './new-chatbot.scss',
@@ -25,6 +28,12 @@ export class NewChatbot implements OnDestroy {
   private static readonly WORD_DELAY_MS = 40;
 
   private streamTimer?: ReturnType<typeof setInterval>;
+
+  /** The assistant message currently being revealed, kept whole so it can be completed early. */
+  private streamingMessage?: MessageEntry;
+
+  /** Id of the message being streamed. Structured sections are shown once streaming ends. */
+  streamingId = signal<string | null>(null);
 
  // User input
   userInput = signal('');
@@ -150,6 +159,9 @@ export class NewChatbot implements OnDestroy {
       { ...assistantMessage, content: '' }
     ]);
 
+    this.streamingMessage = assistantMessage;
+    this.streamingId.set(assistantMessage.id);
+
     let index = 0;
 
     this.streamTimer = setInterval(() => {
@@ -172,12 +184,31 @@ export class NewChatbot implements OnDestroy {
   }
 
 
+  /**
+   * Stops the word-by-word reveal and shows the full answer, so an answer
+   * interrupted by "New chat" or opening a history entry is never saved half-written.
+   */
   private stopStreaming(): void {
 
     if (this.streamTimer) {
       clearInterval(this.streamTimer);
       this.streamTimer = undefined;
     }
+
+    const streamed = this.streamingMessage;
+
+    if (streamed) {
+      this.messages.update(messages =>
+        messages.map(message =>
+          message.id === streamed.id
+            ? { ...message, content: streamed.content }
+            : message
+        )
+      );
+    }
+
+    this.streamingMessage = undefined;
+    this.streamingId.set(null);
   }
 
 
@@ -231,24 +262,6 @@ export class NewChatbot implements OnDestroy {
     this.userInput.set('');
     this.isTyping.set(false);
     this.isHistoryOpen.set(false);
-  }
-
-
-  /**
-   * Renders API content as markdown (tables, lists, code blocks, emphasis).
-   * Angular sanitizes the result before it reaches the DOM via [innerHTML].
-   */
-  highlightContent(message: MessageEntry): string {
-
-    if (!message.content) {
-      return '';
-    }
-
-    if (message.role === 'user') {
-      return message.content;
-    }
-
-    return marked.parse(message.content, { async: false, gfm: true, breaks: true });
   }
 
 
