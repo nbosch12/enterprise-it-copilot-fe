@@ -1,0 +1,81 @@
+@let n = node();
+
+@if (n.type === 'text') {
+  <app-rich-text [text]="n.text" inline />
+} @else if (n.type === 'code') {
+  <app-code-block [code]="n.code" [language]="n.language" />
+} @else if (n.type === 'list') {
+  @if (n.ordered) {
+    <ol class="answer-list">
+      @for (item of n.items; track $index) {
+        <li><app-answer-node [node]="item" /></li>
+      }
+    </ol>
+  } @else {
+    <ul class="answer-list">
+      @for (item of n.items; track $index) {
+        <li><app-answer-node [node]="item" /></li>
+      }
+    </ul>
+  }
+} @else if (n.type === 'steps') {
+  <ol class="answer-steps" role="list">
+    @for (step of n.steps; track $index) {
+      <li class="answer-step">
+        <span class="answer-step-number" aria-hidden="true">{{ step.number }}</span>
+        <div class="answer-step-body">
+          @if (step.title) {
+            <p class="answer-step-title"><app-rich-text [text]="step.title" inline /></p>
+          }
+          @if (step.description) {
+            <app-rich-text class="answer-step-description" [text]="step.description" />
+          }
+          @for (field of step.fields; track field.key) {
+            <div class="answer-subfield">
+              <p class="answer-subfield-label">{{ field.label }}</p>
+              <app-answer-node [node]="field.node" />
+            </div>
+          }
+        </div>
+      </li>
+    }
+  </ol>
+} @else if (n.type === 'cards') {
+  <div class="answer-cards">
+    @for (card of n.cards; track $index) {
+      <article class="answer-card">
+        @if (card.title || card.severity) {
+          <header class="answer-card-header">
+            @if (card.title) {
+              <h4 class="answer-card-title">
+                @if (card.titleIsCode) {
+                  <code>{{ card.title }}</code>
+                } @else {
+                  {{ card.title }}
+                }
+              </h4>
+            }
+            @if (card.severity) {
+              <app-severity-badge class="answer-card-severity" [severity]="card.severity" />
+            }
+          </header>
+        }
+        @if (card.fields.length) {
+          <dl class="answer-fields">
+            @for (field of card.fields; track field.key) {
+              <dt>{{ field.label }}</dt>
+              <dd><app-answer-node [node]="field.node" /></dd>
+            }
+          </dl>
+        }
+      </article>
+    }
+  </div>
+} @else if (n.type === 'fields') {
+  <dl class="answer-fields">
+    @for (field of n.fields; track field.key) {
+      <dt>{{ field.label }}</dt>
+      <dd><app-answer-node [node]="field.node" /></dd>
+    }
+  </dl>
+}

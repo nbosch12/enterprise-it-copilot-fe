@@ -1,0 +1,9 @@
+@for (segment of segments(); track $index) {
+  @if (segment.kind === 'code') {
+    <app-code-block [code]="segment.code" [language]="segment.language" />
+  } @else if (isInline()) {
+    <span class="rich-text-html" [innerHTML]="segment.html"></span>
+  } @else {
+    <div class="rich-text-html" [innerHTML]="segment.html"></div>
+  }
+}

@@ -1,0 +1,126 @@
+:host {
+  display: block;
+}
+
+:host(.rich-text-inline) {
+  display: inline;
+}
+
+/* Space between a paragraph and a following code block */
+.rich-text-html:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+/* Markdown rendered with [innerHTML] needs ::ng-deep; :host keeps it scoped to this component. */
+:host ::ng-deep .rich-text-html {
+  p,
+  ul,
+  ol,
+  pre,
+  blockquote,
+  table {
+    margin: 0 0 12px;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 16px 0 8px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  h1 { font-size: 20px; }
+  h2 { font-size: 18px; }
+  h3 { font-size: 16px; }
+  h4 { font-size: 15px; }
+
+  ul,
+  ol {
+    padding-left: 22px;
+  }
+
+  li + li {
+    margin-top: 4px;
+  }
+
+  strong {
+    font-weight: 600;
+    color: #000;
+  }
+
+  a {
+    color: #0069b4;
+    text-decoration: underline;
+  }
+
+  code {
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 0.87em;
+    background: #f2f4f7;
+    border: 1px solid #e6e9ee;
+    border-radius: 4px;
+    padding: 1px 5px;
+    overflow-wrap: anywhere;
+  }
+
+  pre {
+    background: #f6f8fa;
+    border: 1px solid #e2e6ea;
+    border-radius: 6px;
+    padding: 12px;
+    overflow-x: auto;
+
+    code {
+      background: none;
+      border: none;
+      padding: 0;
+    }
+  }
+
+  blockquote {
+    border-left: 3px solid #d0d5dd;
+    padding-left: 12px;
+    color: #555;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+    display: block;
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    border: 1px solid #e2e6ea;
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background: #f2f4f7;
+    font-weight: 600;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #fafbfc;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #e2e6ea;
+    margin: 16px 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}

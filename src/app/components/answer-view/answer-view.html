@@ -1,0 +1,34 @@
+@let a = answer();
+
+@if (a.severity) {
+  <app-severity-badge class="answer-severity" [severity]="a.severity" />
+}
+
+@if (summary()) {
+  <app-rich-text class="answer-summary" [text]="summary()" />
+}
+
+@if (complete()) {
+  <div class="answer-details">
+    @for (section of a.sections; track section.key) {
+      <section class="answer-section" [class.answer-section-note]="section.tone === 'note'">
+        <h3 class="answer-section-title">{{ section.title }}</h3>
+        <app-answer-node [node]="section.node" />
+      </section>
+    }
+
+    @if (a.conclusion) {
+      <section class="answer-conclusion">
+        <h3 class="answer-conclusion-title">Conclusion</h3>
+        <app-rich-text [text]="a.conclusion" />
+      </section>
+    }
+
+    @if (a.rawJson) {
+      <details class="answer-raw">
+        <summary>View JSON response</summary>
+        <app-code-block [code]="a.rawJson" language="json" />
+      </details>
+    }
+  </div>
+}

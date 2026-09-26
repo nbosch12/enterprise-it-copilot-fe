@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { map, Observable, timestamp } from 'rxjs';
+import { ParsedAnswer } from '../models/answer';
+import { parseAssistantPayload } from '../utils/answer-parser';
 
 export interface ChatMessage {
   id: number;
@@ -90,15 +92,15 @@ constructor(private http: HttpClient) {}
     console.log('Sending request:', requestBody);
 
     return this.http
-      .post<{ answer: string }>(apiUrl, requestBody)
+      .post<unknown>(apiUrl, requestBody)
       .pipe(
         map(res => {
 
           console.log('API response:', res);
 
-          const cleanedContent = (res.answer || '')
-            .replace(/\[Chunk\s*#?\d+\]/gi, '')
-            .trim();
+          // Handles plain markdown answers as well as JSON answers
+          // (e.g. { answer, workflow, recommended_actions, ... }).
+          const parsed = parseAssistantPayload(res);
 
           return {
             id: crypto.randomUUID(),
@@ -108,7 +110,8 @@ constructor(private http: HttpClient) {}
             useHistory: message.useHistory,
             historyTurns: message.historyTurns,
             topK: message.topK,
-            content: cleanedContent,
+            content: parsed.summary,
+            structured: parsed.kind === 'structured' ? parsed : undefined,
             role: 'assistant',
             createdAt: new Date(),
             isTable: /table|tabular|as a table/i.test(message.question)
@@ -130,4 +133,6 @@ constructor(private http: HttpClient) {}
   sessionId: string;
   useHistory: boolean;
   historyTurns: number;
+  /** Set for assistant answers the backend returned as JSON. `content` then holds the lead summary. */
+  structured?: ParsedAnswer;
 }

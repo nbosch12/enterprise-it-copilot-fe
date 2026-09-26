@@ -1,0 +1,161 @@
+:host {
+  display: block;
+}
+
+/* Bullet and numbered lists */
+.answer-list {
+  margin: 0;
+  padding-left: 22px;
+
+  li + li {
+    margin-top: 6px;
+  }
+
+  li::marker {
+    color: #8a929e;
+  }
+}
+
+/* Numbered process (e.g. "workflow"): number, connector line, content */
+.answer-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.answer-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  column-gap: 12px;
+  padding-bottom: 16px;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  &:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 30px;
+    bottom: 4px;
+    width: 2px;
+    border-radius: 1px;
+    background: #e2e6ea;
+  }
+}
+
+.answer-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #e3f0fa;
+  color: #00508a;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.answer-step-body {
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.answer-step-title {
+  margin: 0 0 2px;
+  font-weight: 600;
+  color: #222;
+  line-height: 1.6;
+}
+
+.answer-subfield {
+  margin-top: 10px;
+}
+
+.answer-subfield-label {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #5a6270;
+}
+
+/* Records (e.g. "exceptions_observed") */
+.answer-cards {
+  display: grid;
+  gap: 10px;
+}
+
+.answer-card {
+  padding: 12px 14px;
+  border: 1px solid #e2e6ea;
+  border-radius: 8px;
+  background: #fcfcfd;
+}
+
+.answer-card-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.answer-card-title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #222;
+
+  code {
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    background: #eef1f4;
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+}
+
+.answer-card-severity {
+  margin-left: auto;
+}
+
+/* Label / value pairs */
+.answer-fields {
+  display: grid;
+  grid-template-columns: minmax(72px, max-content) minmax(0, 1fr);
+  gap: 6px 16px;
+  margin: 0;
+
+  dt {
+    padding-top: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #5a6270;
+  }
+
+  dd {
+    margin: 0;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .answer-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+
+    dd + dt {
+      margin-top: 8px;
+    }
+  }
+}
